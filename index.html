@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#1a1a2e">
+  <title>Mis Ideas</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    <h1>Mis Ideas</h1>
+    <div class="header-actions">
+      <button class="header-btn" id="btnNewFolder" onclick="openFolderModal()">+ Carpeta</button>
+    </div>
+  </div>
+
+  <!-- Stats bar -->
+  <div class="stats-bar">
+    <div class="stat">
+      <span class="stat-icon">&#128161;</span>
+      <span id="totalIdeas">0</span> ideas
+    </div>
+    <div class="stat">
+      <span class="stat-icon">&#9989;</span>
+      <span id="completedIdeas">0</span> completadas
+    </div>
+    <div class="stat">
+      <span class="stat-icon">&#128336;</span>
+      <span id="pendingIdeas">0</span> pendientes
+    </div>
+  </div>
+
+  <!-- Search -->
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Buscar ideas..." oninput="renderAll()">
+  </div>
+
+  <!-- Filter tabs -->
+  <div class="filter-tabs">
+    <button class="filter-tab active" data-filter="all" onclick="setFilter(this)">Todas</button>
+    <button class="filter-tab" data-filter="pending" onclick="setFilter(this)">&#128336; Pendientes</button>
+    <button class="filter-tab" data-filter="completed" onclick="setFilter(this)">&#9989; Completadas</button>
+  </div>
+
+  <!-- Content -->
+  <div class="content" id="content"></div>
+
+  <!-- FAB buttons -->
+  <div class="fab-container">
+    <button class="fab fab-mic" id="fabMic" onclick="toggleRecording()">
+      <span id="micIcon">&#127908;</span>
+    </button>
+    <button class="fab fab-write" onclick="openIdeaModal()">&#9998;</button>
+  </div>
+
+  <!-- Recording indicator -->
+  <div class="recording-bar" id="recordingBar">
+    <div class="recording-dot"></div>
+    <span>Grabando... <span id="recordTime">0:00</span></span>
+    <button class="recording-stop" onclick="stopRecording()">Detener</button>
+  </div>
+
+  <!-- Idea Modal -->
+  <div class="modal-overlay" id="ideaModal" onclick="closeModalOutside(event, 'ideaModal')">
+    <div class="modal">
+      <h2 id="ideaModalTitle">Nueva Idea</h2>
+
+      <div class="form-group">
+        <label>Idea</label>
+        <textarea id="inputIdea" rows="4" placeholder="Escribi tu idea..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Carpeta</label>
+        <select id="inputFolder">
+          <option value="general">General</option>
+        </select>
+      </div>
+
+      <!-- Audio preview if recorded -->
+      <div class="audio-preview" id="audioPreview" style="display:none">
+        <label>Audio grabado</label>
+        <audio id="audioPlayer" controls></audio>
+      </div>
+
+      <input type="hidden" id="editIdeaId" value="">
+      <input type="hidden" id="audioData" value="">
+
+      <button class="btn-save" onclick="saveIdea()">Guardar</button>
+      <button class="btn-cancel" onclick="closeModal('ideaModal')">Cancelar</button>
+    </div>
+  </div>
+
+  <!-- Folder Modal -->
+  <div class="modal-overlay" id="folderModal" onclick="closeModalOutside(event, 'folderModal')">
+    <div class="modal">
+      <h2>Nueva Carpeta</h2>
+
+      <div class="form-group">
+        <label>Nombre de la carpeta</label>
+        <input type="text" id="inputFolderName" placeholder="Ej: Trabajo, Personal, Big Big..." maxlength="30">
+      </div>
+
+      <div class="form-group">
+        <label>Color</label>
+        <div class="color-options" id="colorOptions">
+          <button class="color-btn selected" data-color="#6c5ce7" style="background:#6c5ce7" onclick="selectColor(this)"></button>
+          <button class="color-btn" data-color="#00cec9" style="background:#00cec9" onclick="selectColor(this)"></button>
+          <button class="color-btn" data-color="#ff6b6b" style="background:#ff6b6b" onclick="selectColor(this)"></button>
+          <button class="color-btn" data-color="#feca57" style="background:#feca57" onclick="selectColor(this)"></button>
+          <button class="color-btn" data-color="#55efc4" style="background:#55efc4" onclick="selectColor(this)"></button>
+          <button class="color-btn" data-color="#fd79a8" style="background:#fd79a8" onclick="selectColor(this)"></button>
+          <button class="color-btn" data-color="#0984e3" style="background:#0984e3" onclick="selectColor(this)"></button>
+          <button class="color-btn" data-color="#e17055" style="background:#e17055" onclick="selectColor(this)"></button>
+        </div>
+      </div>
+
+      <button class="btn-save" onclick="saveFolder()">Crear Carpeta</button>
+      <button class="btn-cancel" onclick="closeModal('folderModal')">Cancelar</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
